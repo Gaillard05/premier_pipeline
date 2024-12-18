@@ -1,9 +1,27 @@
 name: GitHub Actions Demo
-on: [push]
+
+on: push
+
 jobs:
   Explore-GitHub-Actions:
-    runs-on: job.py
+    runs-on: ubuntu-latest # Exécute le job sur un serveur Linux
+
     steps:
+      # Vérifier le dépôt pour récupérer les fichiers nécessaires
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Configurer Python sur l'environnement
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x" # Version de Python à utiliser, par ex. 3.9
+
+      # Exécuter le script Python
+      - name: Run Python script
+        run: python job.py
+
+      # Étapes additionnelles (facultatives)
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
