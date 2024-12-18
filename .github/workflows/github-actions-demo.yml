@@ -7,12 +7,22 @@ jobs:
     runs-on: ubuntu-latest # Exécute le job sur un serveur Linux
 
     steps:
-      # Intentionnellement pas d'étape "checkout" pour provoquer l'échec
+      # Étape 1 : Vérifier le dépôt pour récupérer les fichiers nécessaires
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Étape 2 : Configurer Python sur l'environnement
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x" # Version de Python à utiliser (par exemple, 3.9)
+
+      # Étape 3 : Exécuter le script Python
       - name: Run Python script
         run: python job.py
-      - uses: actions/checkout@v4
 
       # Étapes additionnelles (facultatives)
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: Log environment details
+        run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
