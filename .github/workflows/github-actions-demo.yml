@@ -1,24 +1,33 @@
-name: Python Tests
+name: Run Python Tests
 
-on: [push, pull_request]
+on:
+  push: # Déclencher les tests pour chaque push
+    branches:
+      - "**" # Appliquer à toutes les branches
+  pull_request: # Déclencher également les tests pour les pull requests
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Exécute le job sur un serveur Linux
 
     steps:
+      # Étape 1 : Récupérer le code source
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Étape 2 : Configurer Python
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: "3.x"
+          python-version: "3.12" # Assurez-vous d'utiliser la même version que localement
 
+      # Étape 3 : Installer les dépendances
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install pytest       # Installer pytest
+          pip install -r requirements.txt || true  # Si un fichier requirements.txt existe
 
+      # Étape 4 : Lancer les tests
       - name: Run tests
         run: pytest
